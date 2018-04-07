@@ -1,2 +1,7 @@
-.ideia/*
+# Ignore project files
+.idea/*
+node_modules/*
 package-lock.json
+
+# Ignore environment variable files
+.env

@@ -1,0 +1,31 @@
+html,
+body {
+	height: 100%;
+	background-color: #333;
+}
+
+body {
+	color: black;
+	text-align: center;
+}
+
+.site-wrapper {
+	display: table;
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+}
+
+.container .text-muted {
+	margin: 10px 0;
+	font-family: monospace;
+}
+
+.container.main {
+	background: #fafafa;
+	height: calc(100% - 80px);
+	margin: 20px auto;
+	border-radius: 10px;
+	border: 2px solid black;
+	box-shadow: 5px 5px 5px darkgrey;
+}
