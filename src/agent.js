@@ -5,7 +5,6 @@ const superagent = superagentPromise(_superagent, global.Promise);
 
 const API_ROOT = 'https://gateway.marvel.com';
 
-const encode = encodeURIComponent;
 const responseBody = res => res.data;
 
 let apikey = null;
@@ -40,7 +39,7 @@ const ListComics = {
 
 const ListCharacters = {
 	getByComicId: (comicId, page) =>
-		requests.get(`/v1/public/comics/${comicId}/characters`, None, page),
+		requests.get(`/v1/public/comics/${comicId}/characters`, null, page),
 	searchByName: (comicId, name, page) =>
 		requests.get(`/v1/public/comics/${comicId}/characters`, {name: name}, page),
 	searchByNameStartsWith: (comicId, nameStartsWith, page) =>

@@ -21,7 +21,7 @@ body {
 	font-family: monospace;
 }
 
-.container.main {
+#main.container{
 	background: #fafafa;
 	height: calc(100% - 80px);
 	margin: 20px auto;
