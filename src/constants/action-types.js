@@ -4,8 +4,7 @@ export const APP_LOAD = 'APP_LOAD';
 export const COMICS_EMPTY = 'COMICS_EMPTY';
 export const COMICS_RENDER = 'COMICS_RENDER';
 export const COMICS_CHANGE_FILTER = 'COMICS_CHANGE_FILTER';
-export const COMICS_SEARCH_BY_TITLE = 'COMICS_SEARCH_BY_TITLE';
-export const COMICS_SEARCH_BY_YEAR = 'COMICS_SEARCH_BY_YEAR';
+export const COMICS_SEARCH = 'COMICS_SEARCH';
 
 // Actions for characters
 export const CHAR_SEARCH_BY_NAME = 'CHAR_SEARCH_BY_NAME';

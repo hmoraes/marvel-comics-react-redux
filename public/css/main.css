@@ -29,3 +29,19 @@ body {
 	border: 2px solid black;
 	box-shadow: 5px 5px 5px darkgrey;
 }
+
+.search-box {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.panel-body {
+	text-align: justify;
+}
+
+#comic-list:not(:empty)  {
+    max-height: 500px;
+    overflow-y: auto;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
