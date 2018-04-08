@@ -38,7 +38,7 @@ export default (state = defaultState, action) => {
 		case COMICS_SEARCH:
 			return {
 				...state,
-				filters: {...state.filters, search: action.search},
+				filters: {...state.filters, search: action.search ? action.search.toLowerCase() : action.search },
 				fetching: true
 			};
 		case COMICS_ERROR:
