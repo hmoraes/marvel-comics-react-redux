@@ -15,7 +15,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
 	onLoad: () =>
-		dispatch({type: APP_LOAD, skipTracking: true}),
+		dispatch({type: APP_LOAD}),
 });
 
 class App extends React.Component {
@@ -28,12 +28,12 @@ class App extends React.Component {
 	}
 
 	componentWillMount() {
-		const apikey = process.env.MARVEL_APIKEY;
+		const apikey = process.env.REACT_APP_MARVEL_APIKEY;
 		if (apikey) {
 			agent.setApikey(apikey);
 		}
 
-		const limitCount = process.env.LIMIT_COUNT;
+		const limitCount = process.env.REACT_APP_LIMIT_COUNT;
 		if (limitCount) {
 			agent.setLimitCount(limitCount);
 		}
