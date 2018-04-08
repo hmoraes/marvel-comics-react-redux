@@ -5,3 +5,4 @@ package-lock.json
 
 # Ignore environment variable files
 .env
+local.env
