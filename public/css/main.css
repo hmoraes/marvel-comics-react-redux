@@ -40,8 +40,9 @@ body {
 }
 
 #comic-list:not(:empty)  {
-    max-height: 500px;
+    max-height: 520px;
     overflow-y: auto;
     border-radius: 10px;
     border: 1px solid #ccc;
+	padding: 10px;
 }
