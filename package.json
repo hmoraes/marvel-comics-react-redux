@@ -28,14 +28,15 @@
   "license": "ISC",
   "dependencies": {
     "react": "^16.3.1",
+    "react-app-env": "^1.2.0",
+    "react-bootstrap": "^0.32.1",
     "react-dom": "^16.3.1",
     "react-loader": "^2.4.3",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "superagent": "^3.8.2",
-    "superagent-promise": "^1.1.0",
-    "react-app-env": "^1.2.0"
+    "superagent-promise": "^1.1.0"
   },
   "devDependencies": {
     "react-scripts": "^1.1.4",
