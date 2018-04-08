@@ -5,7 +5,11 @@ const superagent = superagentPromise(_superagent, global.Promise);
 
 const API_ROOT = 'https://gateway.marvel.com';
 
-const responseBody = res => res.data;
+const responseBody = res => res.body;
+
+const errorResponse = e => {
+	throw e;
+};
 
 let apikey = null;
 const apikeyPlugin = req => {
@@ -19,13 +23,13 @@ const limit = (count, p) => ({limit: count, offset: p ? p * count : 0});
 
 const requests = {
 	del: url =>
-		superagent.del(`${API_ROOT}${url}`).use(apikeyPlugin).then(responseBody),
+		superagent.del(`${API_ROOT}${url}`).use(apikeyPlugin).then(responseBody, errorResponse),
 	get: (url, query, page) =>
-		superagent.get(`${API_ROOT}${url}`, query).use(apikeyPlugin).query(limit(limitCount, page)).then(responseBody),
+		superagent.get(`${API_ROOT}${url}`, query).use(apikeyPlugin).query(limit(limitCount, page)).then(responseBody, errorResponse),
 	put: (url, body) =>
-		superagent.put(`${API_ROOT}${url}`, body).use(apikeyPlugin).then(responseBody),
+		superagent.put(`${API_ROOT}${url}`, body).use(apikeyPlugin).then(responseBody, errorResponse),
 	post: (url, body) =>
-		superagent.post(`${API_ROOT}${url}`, body).use(apikeyPlugin).then(responseBody)
+		superagent.post(`${API_ROOT}${url}`, body).use(apikeyPlugin).then(responseBody, errorResponse)
 };
 
 const ListComics = {
