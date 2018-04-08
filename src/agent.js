@@ -7,8 +7,8 @@ const API_ROOT = 'https://gateway.marvel.com';
 
 const responseBody = res => res.body;
 
-const errorResponse = e => {
-	throw e;
+const errorResponse = error => {
+	throw error
 };
 
 let apikey = null;

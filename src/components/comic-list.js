@@ -1,15 +1,16 @@
 import {
-	COMICS_EMPTY, COMICS_CHANGE_FILTER, COMICS_SEARCH, COMICS_RENDER,
+	COMICS_EMPTY, COMICS_CHANGE_FILTER, COMICS_SEARCH, COMICS_RENDER, COMICS_ERROR,
 	CODE_SEARCH_BY_TITLE, CODE_SEARCH_BY_TITLE_STARTWITH, CODE_SEARCH_BY_YEAR, NAMES_SEARCH_BY
 } from "../constants/action-types";
 import Comic from "./comic";
-import agent from "../agent"
+import Error from "./error";
+import agent from "../agent";
 
 import React from "react";
 import Loader from 'react-loader';
 import {connect} from "react-redux";
 
-import {FormControl, Form, MenuItem, Grid, Row, Col, InputGroup, DropdownButton, PanelGroup} from 'react-bootstrap';
+import {FormControl, Form, MenuItem, Grid, Row, Col, InputGroup, DropdownButton, PanelGroup, Panel} from 'react-bootstrap';
 
 const mapStateToProps = state => ({
 	...state.comics
@@ -23,7 +24,9 @@ const mapDispatchToProps = dispatch => ({
 	onSearch: (search) =>
 		dispatch({type: COMICS_SEARCH, search: search}),
 	onSearchResult: (result) =>
-		dispatch({type: COMICS_RENDER, result: result})
+		dispatch({type: COMICS_RENDER, result: result}),
+	onErrors: (error) =>
+		dispatch({type: COMICS_ERROR, error: error})
 });
 
 
@@ -57,10 +60,16 @@ class ComicList extends React.Component {
 				default:
 					break;
 			}
+			await this.props.onSearchResult(data);
 		} catch (e) {
-			console.log(e);
+			if (e && e.response && e.response.body) {
+				console.log('Error: ' + e.response.body.status);
+				await this.props.onErrors(e.response.body);
+			} else {
+				console.log('Error: ' + JSON.stringify(e));
+				await this.props.onErrors({status: e});
+			}
 		}
-		await this.props.onSearchResult(data);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -84,6 +93,7 @@ class ComicList extends React.Component {
 	}
 
 	render() {
+		const no_results = (this.props.comics.length === 0) && (!this.props.error);
 		return (
 			<Grid className="row">
 				<Row className="search-box">
@@ -113,8 +123,10 @@ class ComicList extends React.Component {
 				<Row>
 					<Loader loaded={!this.props.fetching}>
 						<div className="container">
+							<Error error={this.props.error} message={this.props.message}/>
 							<PanelGroup accordion id="comic-list">
 								{
+									no_results ? <Panel><Panel.Heading><Panel.Title>No results</Panel.Title></Panel.Heading></Panel> :
 									(this.props.comics || []).map(comic => {
 										return (
 											<Comic key={comic.id} comic={comic}/>
