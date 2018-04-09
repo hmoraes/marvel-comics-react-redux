@@ -16,6 +16,7 @@ The project structure is as the following:
 
 ```text
 project:
+    - build/                <- Folder with a production build of this project
     - public/               <- Folder with static resources of project
         - css/              <- Folder with static styles
         - fonts/            <- Folder with fonts used by some styles
@@ -45,6 +46,7 @@ project:
     .gitignore              <- File used by git to read patterns of ignored files
     package.json            <- The nodejs project configuration file
     README.md               <- This file
+    server.js               <- Code used by heroku to serve the build folder 
 ```
 
 Dependencies
@@ -129,4 +131,7 @@ $ npm run build
 Deploying
 ---------
 
-TODO...
+The project was deployed on [Heroku](https://www.heroku.com/). The URL to access the application is 
+<https://marvel-comics-react-redux.herokuapp.com>.
+
+This deployed version is a production optimized build.
