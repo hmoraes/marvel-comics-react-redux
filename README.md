@@ -146,7 +146,6 @@ Todo list
 ---------
 
 - Translate the project
-- Add cache on agent (for repeated requests)
 - Better view
 - Show more info about comics
 - Create tests for modules using jest

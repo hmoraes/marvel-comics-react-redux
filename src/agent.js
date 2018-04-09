@@ -1,7 +1,11 @@
 import superagentPromise from 'superagent-promise';
 import _superagent from 'superagent';
+import CacheModule from 'cache-service-cache-module';
+import SuperAgentCache from 'superagent-cache-plugin';
 
 const superagent = superagentPromise(_superagent, global.Promise);
+const cache = new CacheModule({storage: 'session', defaultExpiration: 86400});
+const superagentCache = SuperAgentCache(cache);
 
 const API_ROOT = 'https://gateway.marvel.com';
 
@@ -25,7 +29,7 @@ const requests = {
 	del: url =>
 		superagent.del(`${API_ROOT}${url}`).use(apikeyPlugin).then(responseBody, errorResponse),
 	get: (url, query, page) =>
-		superagent.get(`${API_ROOT}${url}`, query).use(apikeyPlugin).query(limit(limitCount, page)).then(responseBody, errorResponse),
+		superagent.get(`${API_ROOT}${url}`, query).use(superagentCache).use(apikeyPlugin).query(limit(limitCount, page)).then(responseBody, errorResponse),
 	put: (url, body) =>
 		superagent.put(`${API_ROOT}${url}`, body).use(apikeyPlugin).then(responseBody, errorResponse),
 	post: (url, body) =>
