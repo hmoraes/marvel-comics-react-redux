@@ -1,11 +1,38 @@
 import React from 'react';
-import {Media, Panel, Button} from 'react-bootstrap';
+import {Media, Panel} from 'react-bootstrap';
 import {isBrowser} from 'react-device-detect';
+import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory, {textFilter} from 'react-bootstrap-table2-filter';
 
 const Comic = props => {
 
 	if (props.comic) {
 		const comic = props.comic;
+		const columns = [{
+			dataField: 'name',
+			text: 'Characters',
+			filter: textFilter(),
+			headerAlign: 'center'
+		}, {
+			dataField: 'resourceURI',
+			text: 'URI',
+			hidden: true
+		}];
+		const rowEvents = {
+			onClick: (e, row, rowIndex) => {
+				console.log('row event: e=' + e + ' - row=' + JSON.stringify(row) + ' - rowIndex' + rowIndex);
+			}
+		};
+		const renderCharacters = (comic) => {
+			if (comic.characters && comic.characters.available > 0) {
+				return (
+					<BootstrapTable keyField='name' data={comic.characters.items} columns={columns}
+									filter={filterFactory()} rowEvents={rowEvents} striped={true} hover={true}/>
+				)
+			}
+			return null;
+		};
+
 		return (
 			<Panel eventKey={comic.id}>
 				<Panel.Heading>
@@ -22,9 +49,7 @@ const Comic = props => {
 							<Media.Heading>[#{comic.issueNumber}] {comic.title}</Media.Heading>
 							<p><a href={comic.urls[0].url} target="_blank">See on Marvel</a></p>
 							<p>{comic.description}</p>
-							{
-								comic.characters && comic.characters.available > 0 && <p className="text-center"><Button>Characters</Button></p>
-							}
+							{renderCharacters(comic)}
 						</Media.Body>
 					</Media>
 				</Panel.Body>

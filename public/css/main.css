@@ -66,3 +66,11 @@ body {
 	margin-bottom: 50px;
     margin-top: 0;
 }
+
+#comic-list .react-bootstrap-table {
+	padding: 0 20px;
+}
+
+#comic-list .react-bootstrap-table tr>td {
+	cursor: pointer;
+}
