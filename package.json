@@ -7,7 +7,8 @@
     "start": "react-app-env --env-file=local.env start",
     "test": "react-app-env --env-file=local.env test --env=jsdom",
     "build": "react-app-env --env-file=.env build",
-    "eject": "react-app-env --env-file=local.env eject"
+    "eject": "react-app-env --env-file=local.env eject",
+    "heroku-start": "node server.js"
   },
   "keywords": [
     "marvel",
