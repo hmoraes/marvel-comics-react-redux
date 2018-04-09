@@ -1,16 +1,28 @@
 import {
-	COMICS_EMPTY, COMICS_CHANGE_FILTER, COMICS_SEARCH, COMICS_RENDER, COMICS_ERROR,
+	COMICS_EMPTY, COMICS_CHANGE_FILTER, COMICS_SEARCH, COMICS_RENDER, COMICS_ERROR, COMICS_SET_PAGE,
 	CODE_SEARCH_BY_TITLE, CODE_SEARCH_BY_TITLE_STARTWITH, CODE_SEARCH_BY_YEAR, NAMES_SEARCH_BY
 } from "../constants/action-types";
 import Comic from "./comic";
 import Error from "./error";
+import Pagination from "./list-pagination";
 import agent from "../agent";
 
 import React from "react";
 import Loader from 'react-loader';
 import {connect} from "react-redux";
 
-import {FormControl, Form, MenuItem, Grid, Row, Col, InputGroup, DropdownButton, PanelGroup, Panel} from 'react-bootstrap';
+import {
+	FormControl,
+	Form,
+	MenuItem,
+	Grid,
+	Row,
+	Col,
+	InputGroup,
+	DropdownButton,
+	PanelGroup,
+	Panel
+} from 'react-bootstrap';
 
 const mapStateToProps = state => ({
 	...state.comics
@@ -49,13 +61,13 @@ class ComicList extends React.Component {
 		try {
 			switch (filters.search_by) {
 				case CODE_SEARCH_BY_TITLE:
-					data = await agent.ListComics.searchByTitle(filters.search);
+					data = await agent.ListComics.searchByTitle(filters.search, filters.page || 0);
 					break;
 				case CODE_SEARCH_BY_TITLE_STARTWITH:
-					data = await agent.ListComics.searchByTitleStartsWith(filters.search);
+					data = await agent.ListComics.searchByTitleStartsWith(filters.search, filters.page || 0);
 					break;
 				case CODE_SEARCH_BY_YEAR:
-					data = await agent.ListComics.searchByStartYear(filters.search);
+					data = await agent.ListComics.searchByStartYear(filters.search, filters.page || 0);
 					break;
 				default:
 					break;
@@ -126,14 +138,16 @@ class ComicList extends React.Component {
 							<Error error={this.props.error} message={this.props.message}/>
 							<PanelGroup accordion id="comic-list">
 								{
-									no_results ? <Panel><Panel.Heading><Panel.Title>No results</Panel.Title></Panel.Heading></Panel> :
-									(this.props.comics || []).map(comic => {
-										return (
-											<Comic key={comic.id} comic={comic}/>
-										)
-									})
+									no_results ? <Panel><Panel.Heading><Panel.Title>No
+											results</Panel.Title></Panel.Heading></Panel> :
+										(this.props.comics || []).map(comic => {
+											return (
+												<Comic key={comic.id} comic={comic}/>
+											)
+										})
 								}
 							</PanelGroup>
+							<Pagination show={!this.props.error} type={COMICS_SET_PAGE} pagination={this.props.server_data}/>
 						</div>
 					</Loader>
 				</Row>

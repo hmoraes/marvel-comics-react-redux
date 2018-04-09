@@ -6,6 +6,7 @@ export const COMICS_RENDER = 'COMICS_RENDER';
 export const COMICS_CHANGE_FILTER = 'COMICS_CHANGE_FILTER';
 export const COMICS_SEARCH = 'COMICS_SEARCH';
 export const COMICS_ERROR = 'COMICS_ERROR';
+export const COMICS_SET_PAGE = 'COMICS_SET_PAGE';
 
 // Actions for characters
 export const CHAR_SEARCH_BY_NAME = 'CHAR_SEARCH_BY_NAME';

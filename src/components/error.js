@@ -3,8 +3,6 @@ import {Panel} from 'react-bootstrap';
 
 class Error extends React.Component {
 	render() {
-		console.log('Render error: ' + JSON.stringify(this.props));
-
 		const error = this.props.error;
 		const message = this.props.message;
 		if (error) {
