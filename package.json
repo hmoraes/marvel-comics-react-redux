@@ -30,6 +30,7 @@
     "react": "^16.3.1",
     "react-app-env": "^1.2.0",
     "react-bootstrap": "^0.32.1",
+    "react-bootstrap-maskedinput": "^0.4.0",
     "react-dom": "^16.3.1",
     "react-loader": "^2.4.3",
     "react-redux": "^5.0.7",

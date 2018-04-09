@@ -12,8 +12,8 @@ import Loader from 'react-loader';
 import {connect} from "react-redux";
 
 import {
-	FormControl,
 	Form,
+	FormControl,
 	MenuItem,
 	Grid,
 	Row,
@@ -23,6 +23,7 @@ import {
 	PanelGroup,
 	Panel
 } from 'react-bootstrap';
+import MaskedFormControl from 'react-bootstrap-maskedinput';
 
 const mapStateToProps = state => ({
 	...state.comics
@@ -112,10 +113,15 @@ class ComicList extends React.Component {
 					<Col md={6} mdOffset={3} sm={8} smOffset={2}>
 						<Form onSubmit={this.search}>
 							<InputGroup>
-								<FormControl
-									type="text"
-									name="search"
-									placeholder={NAMES_SEARCH_BY[this.props.filters.search_by]}/>
+								{
+									this.props.filters.search_by === CODE_SEARCH_BY_YEAR ?
+										<MaskedFormControl
+											type="text" name="search" mask="1111"
+											placeholder={NAMES_SEARCH_BY[this.props.filters.search_by]}/> :
+										<FormControl
+											type="text" name="search"
+											placeholder={NAMES_SEARCH_BY[this.props.filters.search_by]}/>
+								}
 								<DropdownButton
 									componentClass={InputGroup.Button}
 									id="search-button"
@@ -147,7 +153,8 @@ class ComicList extends React.Component {
 										})
 								}
 							</PanelGroup>
-							<Pagination show={!this.props.error} type={COMICS_SET_PAGE} pagination={this.props.server_data}/>
+							<Pagination show={!this.props.error} type={COMICS_SET_PAGE}
+										pagination={this.props.server_data}/>
 						</div>
 					</Loader>
 				</Row>
