@@ -135,3 +135,18 @@ The project was deployed on [Heroku](https://www.heroku.com/). The URL to access
 <https://marvel-comics-react-redux.herokuapp.com>.
 
 This deployed version is a production optimized build.
+
+Comments
+--------
+
+All code was written in English just like everything else. On git repository the commits were made in a simple way and 
+with descriptive texts of what was done.
+
+Todo list
+---------
+
+- Translate the project
+- Add cache on agent (for repeated requests)
+- Better view
+- Show more info about comics
+- Create tests for modules using jest
