@@ -12,16 +12,7 @@ import Loader from 'react-loader';
 import {connect} from "react-redux";
 
 import {
-	Form,
-	FormControl,
-	MenuItem,
-	Grid,
-	Row,
-	Col,
-	InputGroup,
-	DropdownButton,
-	PanelGroup,
-	Panel
+	Form, FormControl, MenuItem, Grid, Row, Col, InputGroup, DropdownButton, PanelGroup, Panel
 } from 'react-bootstrap';
 import MaskedFormControl from 'react-bootstrap-maskedinput';
 
@@ -105,8 +96,22 @@ class ComicList extends React.Component {
 		this.props.onEmptyList();
 	}
 
-	render() {
+	renderComic() {
 		const no_results = (this.props.comics.length === 0) && (!this.props.error);
+		if (no_results) {
+			return (<Panel><Panel.Heading><Panel.Title>No results</Panel.Title></Panel.Heading></Panel>)
+		} else {
+			return (
+				(this.props.comics || []).map(comic => {
+					return (
+						<Comic key={comic.id} comic={comic}/>
+					)
+				})
+			)
+		}
+	}
+
+	render() {
 		return (
 			<Grid className="row">
 				<Row className="search-box">
@@ -143,15 +148,7 @@ class ComicList extends React.Component {
 						<div className="container">
 							<Error error={this.props.error} message={this.props.message}/>
 							<PanelGroup accordion id="comic-list">
-								{
-									no_results ? <Panel><Panel.Heading><Panel.Title>No
-											results</Panel.Title></Panel.Heading></Panel> :
-										(this.props.comics || []).map(comic => {
-											return (
-												<Comic key={comic.id} comic={comic}/>
-											)
-										})
-								}
+								{this.renderComic()}
 							</PanelGroup>
 							<Pagination show={!this.props.error} type={COMICS_SET_PAGE}
 										pagination={this.props.server_data}/>
