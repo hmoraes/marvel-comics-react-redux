@@ -1,5 +1,5 @@
 import {
-	COMICS_EMPTY, COMICS_CHANGE_FILTER, COMICS_SEARCH, COMICS_RENDER, COMICS_ERROR, COMICS_SET_PAGE,
+	COMICS_EMPTY, COMICS_CHANGE_FILTER, COMICS_SEARCH, COMICS_RENDER, COMICS_ERROR, COMICS_SET_PAGE, CHAR_SHOW,
 	CODE_SEARCH_BY_TITLE, CODE_SEARCH_BY_TITLE_STARTWITH, CODE_SEARCH_BY_YEAR, NAMES_SEARCH_BY
 } from "../constants/action-types";
 import Comic from "./comic";
@@ -12,9 +12,10 @@ import Loader from 'react-loader';
 import {connect} from "react-redux";
 
 import {
-	Form, FormControl, MenuItem, Grid, Row, Col, InputGroup, DropdownButton, PanelGroup, Panel
+	Form, FormControl, MenuItem, Grid, Row, Col, InputGroup, DropdownButton, PanelGroup, Panel, Modal
 } from 'react-bootstrap';
 import MaskedFormControl from 'react-bootstrap-maskedinput';
+import Character from "./character";
 
 const mapStateToProps = state => ({
 	...state.comics
@@ -30,13 +31,21 @@ const mapDispatchToProps = dispatch => ({
 	onSearchResult: (result) =>
 		dispatch({type: COMICS_RENDER, result: result}),
 	onErrors: (error) =>
-		dispatch({type: COMICS_ERROR, error: error})
+		dispatch({type: COMICS_ERROR, error: error}),
+	showCharacter: (id, name, response) =>
+		dispatch({type: CHAR_SHOW, character: {id: id, name: name, response: response}})
 });
 
 
 class ComicList extends React.Component {
 	constructor() {
 		super();
+
+		this.handleCharModalClose = this.handleCharModalClose.bind(this);
+
+		this.state = {
+			character: null
+		};
 
 		this.changeSearchBy = key => {
 			this.props.onFilterChange({search_by: key});
@@ -48,7 +57,7 @@ class ComicList extends React.Component {
 		}
 	}
 
-	async askAgent(filters) {
+	async askAgentForComics(filters) {
 		let data = {};
 		try {
 			switch (filters.search_by) {
@@ -76,9 +85,39 @@ class ComicList extends React.Component {
 		}
 	}
 
+	async askAgentForCharacter(character_id) {
+		let response = {};
+		try {
+			response = await agent.ListCharacters.getById(character_id);
+			await this.props.showCharacter(character_id, null, response);
+		} catch (e) {
+			if (e && e.response && e.response.body) {
+				console.log('Error: ' + e.response.body.status);
+				await this.props.onErrors(e.response.body);
+			} else {
+				console.log('Error: ' + JSON.stringify(e));
+				await this.props.onErrors({status: e});
+			}
+		}
+	}
+
 	componentWillReceiveProps(nextProps) {
 		if (nextProps && nextProps.fetching) {
-			this.askAgent(nextProps.filters);
+			this.askAgentForComics(nextProps.filters);
+		}
+
+		if (nextProps && nextProps.character) {
+			let fetching = false;
+			if (!nextProps.character.done) {
+				fetching = true;
+				this.askAgentForCharacter(nextProps.character.id);
+			}
+			this.setState({
+				character: {
+					...nextProps.character,
+					fetching: fetching
+				}
+			})
 		}
 	}
 
@@ -96,6 +135,12 @@ class ComicList extends React.Component {
 		this.props.onEmptyList();
 	}
 
+	handleCharModalClose() {
+		this.setState({
+			character: null
+		});
+	}
+
 	renderComic() {
 		const no_results = (this.props.comics.length === 0) && (!this.props.error);
 		if (no_results) {
@@ -104,7 +149,7 @@ class ComicList extends React.Component {
 			return (
 				(this.props.comics || []).map(comic => {
 					return (
-						<Comic key={comic.id} comic={comic}/>
+						<Comic key={comic.id} comic={comic} showCharacter={this.props.showCharacter}/>
 					)
 				})
 			)
@@ -155,6 +200,16 @@ class ComicList extends React.Component {
 						</div>
 					</Loader>
 				</Row>
+				<Modal show={this.state.character != null} onHide={this.handleCharModalClose}>
+					<Modal.Header closeButton>
+						<Modal.Title>{this.state.character && this.state.character.name}</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+						<Loader loaded={this.state.character && !this.state.character.fetching}>
+							<Character character={this.state.character}/>
+						</Loader>
+					</Modal.Body>
+				</Modal>
 			</Grid>
 		);
 	}

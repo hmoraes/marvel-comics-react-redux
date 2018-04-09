@@ -54,6 +54,10 @@ body {
 	text-align: justify;
 }
 
+.loader {
+	min-height: 100px;
+}
+
 #comic-list:not(:empty)  {
     max-height: 520px;
     overflow-y: auto;

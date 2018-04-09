@@ -42,6 +42,8 @@ const ListComics = {
 };
 
 const ListCharacters = {
+	getById: (id) =>
+		requests.get(`/v1/public/characters/${id}`),
 	getByComicId: (comicId, page) =>
 		requests.get(`/v1/public/comics/${comicId}/characters`, null, page),
 	searchByName: (comicId, name, page) =>

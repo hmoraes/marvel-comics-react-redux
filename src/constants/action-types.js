@@ -9,7 +9,7 @@ export const COMICS_ERROR = 'COMICS_ERROR';
 export const COMICS_SET_PAGE = 'COMICS_SET_PAGE';
 
 // Actions for characters
-export const CHAR_SEARCH_BY_NAME = 'CHAR_SEARCH_BY_NAME';
+export const CHAR_SHOW = 'CHAR_SHOW';
 
 // Codes
 export const CODE_SEARCH_BY_TITLE = 0;

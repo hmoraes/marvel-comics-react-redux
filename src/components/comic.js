@@ -20,7 +20,9 @@ const Comic = props => {
 		}];
 		const rowEvents = {
 			onClick: (e, row, rowIndex) => {
-				console.log('row event: e=' + e + ' - row=' + JSON.stringify(row) + ' - rowIndex' + rowIndex);
+				if (row && row.resourceURI) {
+					props.showCharacter(row.resourceURI.split('/').pop(), row.name);
+				}
 			}
 		};
 		const renderCharacters = (comic) => {
