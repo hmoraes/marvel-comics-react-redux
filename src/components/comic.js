@@ -22,7 +22,9 @@ const Comic = props => {
 							<Media.Heading>[#{comic.issueNumber}] {comic.title}</Media.Heading>
 							<p><a href={comic.urls[0].url} target="_blank">See on Marvel</a></p>
 							<p>{comic.description}</p>
-							<Button>Characters</Button>
+							{
+								comic.characters && comic.characters.available > 0 && <p className="text-center"><Button>Characters</Button></p>
+							}
 						</Media.Body>
 					</Media>
 				</Panel.Body>
