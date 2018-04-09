@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Pagination} from 'react-bootstrap';
+import {isBrowser} from 'react-device-detect';
 
 const mapDispatchToProps = dispatch => ({
 	onSetPage: (type, page, pagination) =>
@@ -14,6 +15,7 @@ class ListPagination extends React.Component {
 			return null;
 		}
 
+		const btn_amount = isBrowser ? 5 : 3;
 		const limit = $props.pagination.limit;
 		const offset = $props.pagination.offset;
 		const total = $props.pagination.total;
@@ -31,13 +33,13 @@ class ListPagination extends React.Component {
 			}
 		}
 
-		let min_page_btn = Math.max(1, page - 5),
-			max_page_btn = Math.min(pages, page + 5);
+		let min_page_btn = Math.max(1, page - btn_amount),
+			max_page_btn = Math.min(pages, page + btn_amount);
 		if (min_page_btn === 1)
-			max_page_btn = Math.min(pages, max_page_btn + 5 - page);
+			max_page_btn = Math.min(pages, max_page_btn + btn_amount - page);
 
 		if (max_page_btn === pages)
-			min_page_btn = Math.max(1, min_page_btn - 5);
+			min_page_btn = Math.max(1, min_page_btn - btn_amount);
 
 		const range = [];
 		for (let i = min_page_btn; i <= max_page_btn; ++i) {
@@ -49,7 +51,7 @@ class ListPagination extends React.Component {
 		};
 
 		return (
-			<Pagination bsSize="medium">
+			<Pagination bsSize={isBrowser ? 'medium' : 'small'}>
 				{
 					(1 < min_page_btn) ? <Pagination.Item key={0} onClick={ev => {
 						ev.preventDefault();
@@ -62,7 +64,7 @@ class ListPagination extends React.Component {
 						const isCurrent = v === page;
 						const onClick = ev => {
 							ev.preventDefault();
-							setPage(v-1);
+							setPage(v - 1);
 						};
 						return (
 							<Pagination.Item key={v} active={isCurrent}
@@ -73,7 +75,7 @@ class ListPagination extends React.Component {
 				{
 					(max_page_btn < pages) ? <Pagination.Item key={pages} onClick={ev => {
 						ev.preventDefault();
-						setPage(pages-1)
+						setPage(pages - 1)
 					}}>Last</Pagination.Item> : ""
 				}
 			</Pagination>

@@ -46,3 +46,8 @@ body {
     border: 1px solid #ccc;
 	padding: 10px;
 }
+
+#comic-list + .pagination {
+	margin-bottom: 50px;
+    margin-top: 0;
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Media, Panel, Button} from 'react-bootstrap';
+import {isBrowser} from 'react-device-detect';
 
 const Comic = props => {
 
@@ -13,8 +14,9 @@ const Comic = props => {
 				<Panel.Body collapsible>
 					<Media>
 						<Media.Left>
-							<img width={168} height={252} alt="portrait_fantastic"
-								 src={comic.thumbnail.path + '/portrait_fantastic.' + comic.thumbnail.extension} />
+							<img width={isBrowser ? 168 : 75} height={isBrowser ? 252 : 112}
+								 alt={isBrowser ? 'portrait_fantastic' : 'portrait_small'}
+								 src={comic.thumbnail.path + (isBrowser ? '/portrait_fantastic.' : '/portrait_small.') + comic.thumbnail.extension}/>
 						</Media.Left>
 						<Media.Body>
 							<Media.Heading>[#{comic.issueNumber}] {comic.title}</Media.Heading>
